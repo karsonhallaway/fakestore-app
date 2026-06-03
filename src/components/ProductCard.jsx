@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom';
 
 export default function ProductCard({ id, title, description, price, image }) {
     return (
-        <Card style={{width: '18rem' }}>
+        <Card style={{maxWidth: '18rem' }}>
             <Card.Img variant="top" src={image} />
             <Card.Body>
                 <Card.Title>{title}</Card.Title>
