@@ -14,8 +14,8 @@ export default function AddProduct()  {
     const [product, setProduct] = useState({
         title: '',
         price: '', 
-        desc: '',
-        cat: '',
+        description: '',
+        category: '',
     });
 
     const [loading, setLoading] = useState(false);
@@ -109,19 +109,17 @@ export default function AddProduct()  {
                     <Col>
                         <Form.Group>
                             <Form.Label>Description</Form.Label>
-                            <Form.Group>
-                                <Form.Control
-                                    type="text"
-                                    placeholder="Describe your product..."
-                                    name="desc"
-                                    value={product.desc}
-                                    onChange={handleChange}
-                                    required
-                                />
-                                <Form.Control.Feedback type="invalid">
-                                    Product must have a description
-                                </Form.Control.Feedback>
-                            </Form.Group>
+                            <Form.Control
+                                type="text"
+                                placeholder="Describe your product..."
+                                name="description"
+                                value={product.description}
+                                onChange={handleChange}
+                                required
+                            />
+                            <Form.Control.Feedback type="invalid">
+                                Product must have a description
+                            </Form.Control.Feedback>
                         </Form.Group>
                     </Col>
                 </Row>
@@ -131,16 +129,16 @@ export default function AddProduct()  {
                         <Form.Group>
                             <Form.Label>Category</Form.Label>
                             <Form.Select
-                                name="cat"
-                                value={product.cat}
+                                name="category"
+                                value={product.category}
                                 onChange={handleChange}
                                 required
                             >
                                 <option hidden value="">Choose Category</option>
-                                <option>Men's Clothing</option>
-                                <option>Women's Clothing</option>
-                                <option>Jewelry</option>
-                                <option>Electronics</option>
+                                <option value="men's clothing">Men's clothing</option>
+                                <option value ="women's clothing">Women's clothing</option>
+                                <option value="jewelery">Jewelry</option>
+                                <option value="electronics">Electronics</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 Please select category
