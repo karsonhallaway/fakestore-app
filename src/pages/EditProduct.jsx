@@ -9,6 +9,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Alert from 'react-bootstrap/Alert';
 import LoadingSpinner from '../components/LoadingSpinner';
+import ErrorMessage from '../components/ErrorMessage';
 
 export default function EditProduct() {
     const { id } = useParams();
@@ -20,8 +21,10 @@ export default function EditProduct() {
     });
     
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
     const [submitted, setSubmitted] = useState(false);
+    const [error, setError] = useState(null);
+    const [validated, setValidated] = useState(false);
+    const navigate = useNavigate();
 
      const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,29 +52,34 @@ export default function EditProduct() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
-        try {
-            const data = {...product, price: parseFloat(product.price) };
-            await updateProduct(id, data);
+
+        const form = e.currentTarget;
+        if (form.checkValidity () === false) {
+            e.stopPropagation();
+            setValidated(true);
             setLoading(false);
-            setSubmitted(true);
-            setTimeout(() => {useNavigate(`/product-details/${id}`)}, 2000);
-        } catch (error) {
-            setError(error.message);
-            setLoading(false);
-            setSubmitted(false);
+            return;
         }
+            try {
+                const data = {...product, price: parseFloat(product.price) };
+                await updateProduct(id, data);
+                setLoading(false);
+                setSubmitted(true);
+                setTimeout(() => {navigate(`/product-details/${id}`)}, 2000);
+            } catch (error) {
+                setError(error.message);
+                setLoading(false);
+            }
     }
 
     if (loading) return <LoadingSpinner />;
-    if (error) return <Alert variant='danger'>{error}</Alert>;
-    {submitted && <Alert variant='success'>
-        Product updated successfully!
-        Now redirecting...</Alert>}
-
+    if (error) return <ErrorMessage message={error} />;
+    
     return (
         <Container>
+            {submitted && <Alert variant='success' dismissible>{product.title} was updated!</Alert>}
             <h3>Edit Product</h3>
-            <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit} noValidate validated={validated}>
                 <Row>
                     <Col md={6}>
                         <Form.Group className="mb-3">
@@ -137,6 +145,8 @@ export default function EditProduct() {
                                 required
                             >
                                 <option value="">Select a category</option>
+                                <option value="men's clothing">Men's clothing</option>
+                                <option value="women's clothing">Women's clothing</option>
                                 <option value="electronics">Electronics</option>
                                 <option value="jewelery">Jewelery</option>
                             </Form.Select>

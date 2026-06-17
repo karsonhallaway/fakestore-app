@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { createProduct } from '../services/productService';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -22,6 +23,7 @@ export default function AddProduct()  {
     const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState(null);
     const [validated, setValidated] = useState(false);
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -49,6 +51,7 @@ export default function AddProduct()  {
                 await createProduct(data);
                 setSubmitted(true);
                 setLoading(false);
+                setTimeout(() => {navigate('/product-listing')}, 2000);
             } catch (error) {
                 setError(error.message);
                 setLoading(false);
@@ -58,12 +61,12 @@ export default function AddProduct()  {
         setValidated(true);
     }
 
-    
+    if (loading) return <LoadingSpinner />;
+    if (error) return <Alert variant='danger'>{error}</Alert>;
     return (
         
         <Container> 
             {submitted && <Alert variant="success" dismissible>{product.title} was created!</Alert>}
-            {error && <Alert variant="danger" dismissible>{error}</Alert>}
 
             <Form onSubmit={handleSubmit} noValidate validated={validated}>
                 <h1>Add Product</h1>
