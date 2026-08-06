@@ -1,16 +1,76 @@
-# React + Vite
+# FakeStore App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React + Vite app for browsing, creating, editing, and deleting products via the [Fake Store API](https://fakestoreapi.com).
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Browse a product listing with details for each item
+- View a single product's details
+- Add a new product
+- Edit an existing product
+- Delete a product
+- Bootstrap-based UI (via `react-bootstrap`)
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- [React 19](https://react.dev)
+- [Vite](https://vite.dev)
+- [React Router](https://reactrouter.com)
+- [Axios](https://axios-http.com)
+- [React Bootstrap](https://react-bootstrap.github.io)
 
-## Expanding the ESLint configuration
+## Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+src/
+  components/       Reusable UI components (Navbar, ProductCard, LoadingSpinner, ErrorMessage)
+  pages/            Route-level pages (Home, ProductListing, ProductDetails, AddProduct, EditProduct)
+  services/         API layer (productService.js — Axios calls to fakestoreapi.com)
+  App.jsx           Route definitions
+```
+
+## Routes
+
+| Path                    | Page            |
+| ------------------------ | --------------- |
+| `/`                       | Home            |
+| `/product-listing`        | ProductListing  |
+| `/product-details/:id`    | ProductDetails  |
+| `/add-product`            | AddProduct      |
+| `/edit-product/:id`       | EditProduct     |
+
+## Getting Started
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Run the dev server:
+
+```bash
+npm run dev
+```
+
+Build for production:
+
+```bash
+npm run build
+```
+
+Preview a production build locally:
+
+```bash
+npm run preview
+```
+
+Lint the project:
+
+```bash
+npm run lint
+```
+
+## API
+
+All product data is read from and written to the public [Fake Store API](https://fakestoreapi.com). Note that write operations (create/update/delete) are simulated by the API and do not persist changes server-side.
